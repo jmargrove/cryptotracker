@@ -43,7 +43,7 @@ export default class Price extends React.Component {
         <View style={styles.topContainer}>
           <View style={styles.leftPrice}>
             <View style={styles.acrynm}>
-              <Text style={styles.acrynmText}>BTC</Text>
+              <Text style={styles.acrynmText}>{this.props.acy}</Text>
             </View>
             <View style={styles.dividerBar}>
               <LinearGradient
@@ -52,7 +52,7 @@ export default class Price extends React.Component {
               />
             </View>
             <View style={styles.fullNameBox}>
-              <Text style={styles.fullnameText}>bitcoin</Text>
+              <Text style={styles.fullnameText}>{this.props.fullname}</Text>
             </View>
           </View>
           <View style={styles.rightPrice}>
@@ -73,8 +73,8 @@ export default class Price extends React.Component {
           />
         </View>
         <View style={styles.botContainer}>
-          {this.exchangeChange("7d:", "up", 177.7)}
-          {this.exchangeChange("24h:", "down", 25.33)}
+          {this.exchangeChange("7d:", "up", this.props.change7d)}
+          {this.exchangeChange("24h:", "down", this.props.change24h)}
         </View>
       </LinearGradient>
     );
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   numberChange: {
-    fontSize: 20,
+    fontSize: 15,
     color: "#C2F9BB",
     backgroundColor: "transparent"
   },
@@ -177,12 +177,12 @@ const styles = StyleSheet.create({
     alignItems: "flex-end"
   },
   fullnameText: {
-    fontSize: 20,
+    fontSize: 15,
     color: "white",
     backgroundColor: "transparent"
   },
   acrynmText: {
-    fontSize: 30,
+    fontSize: 18,
     color: "white",
     fontWeight: "bold",
     backgroundColor: "transparent"
