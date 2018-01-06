@@ -3,6 +3,35 @@ import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo";
 
 export default class Price extends React.Component {
+  exchangeChange(timePeriod, direction, numberChange) {
+    return (
+      <View style={styles.leftBot}>
+        <View style={styles.upperPriceChange}>
+          <View style={styles.timePeriodBox}>
+            <Text style={styles.timePeriod}>{timePeriod}</Text>
+          </View>
+          <View style={styles.triangleBox}>
+            <View style={styles.triangle} />
+          </View>
+          <View style={styles.numberBox}>
+            <Text style={styles.numberChange}>{numberChange}</Text>
+          </View>
+          <View style={styles.percentBox}>
+            <Text style={styles.percentSymbol}>%</Text>
+          </View>
+        </View>
+        <View style={styles.styleBar}>
+          <LinearGradient
+            colors={["#37758F", "#C2F9BB"]}
+            start={[0, 0.5]}
+            end={[1, 0.5]}
+            style={{ width: 130, height: 3 }}
+          />
+        </View>
+      </View>
+    );
+  }
+
   render() {
     return (
       <LinearGradient
@@ -28,7 +57,7 @@ export default class Price extends React.Component {
           </View>
           <View style={styles.rightPrice}>
             <View style={styles.valueBox}>
-              <Text style={styles.valueText}>12,000</Text>
+              <Text style={styles.valueText}>{this.props.price}</Text>
             </View>
             <View style={styles.dollarBox}>
               <Text style={styles.dollarText}>$</Text>
@@ -43,13 +72,88 @@ export default class Price extends React.Component {
             style={styles.divisionBar}
           />
         </View>
-        <View style={styles.botContainer} />
+        <View style={styles.botContainer}>
+          {this.exchangeChange("7d:", "up", 177.7)}
+          {this.exchangeChange("24h:", "down", 25.33)}
+        </View>
       </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  timePeriod: {
+    fontSize: 15,
+    color: "white",
+    backgroundColor: "transparent"
+  },
+  numberChange: {
+    fontSize: 20,
+    color: "#C2F9BB",
+    backgroundColor: "transparent"
+  },
+  percentSymbol: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "bold",
+    backgroundColor: "transparent",
+    marginLeft: 2
+  },
+  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderBottomWidth: 20,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderBottomColor: "#C2F9BB"
+  },
+  timePeriodBox: {
+    flex: 1,
+    // backgroundColor: "brown",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  triangleBox: {
+    flex: 1,
+    // backgroundColor: "yellow",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  numberBox: {
+    flex: 2,
+    alignItems: "flex-end",
+    // backgroundColor: "blue",
+    justifyContent: "center"
+  },
+  percentBox: {
+    flex: 2,
+    // backgroundColor: "grey",
+    alignItems: "flex-start",
+    justifyContent: "center"
+  },
+  styleBar: {
+    // backgroundColor: "red",
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  upperPriceChange: {
+    flex: 6,
+    // backgroundColor: "blue",
+    flexDirection: "row"
+  },
+  leftBot: {
+    flex: 1
+    // backgroundColor: "green"
+  },
+  rightBot: {
+    flex: 1,
+    backgroundColor: "yellow"
+  },
   dollarText: {
     fontSize: 30,
     fontWeight: "bold",
@@ -130,11 +234,12 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   botContainer: {
-    flex: 10
+    flex: 10,
     // backgroundColor: "red"
+    flexDirection: "row"
   },
   priceContainer: {
-    marginTop: 5,
+    marginTop: 7.5,
     width: 375,
     height: 100
   }
