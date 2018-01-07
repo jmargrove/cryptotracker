@@ -22,7 +22,7 @@ export default class Header extends React.Component {
             <View style={styles.botBar} />
           </View>
         </View>
-        <Text style={styles.title}> CRYPTO STAT </Text>
+        <Text style={styles.title}> CRYPTO TRACKER</Text>
         <View style={styles.menuContainer}>
           <View style={styles.menuDivider}>
             <View style={styles.Dot} />

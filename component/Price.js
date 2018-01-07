@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, PanResponder, Animated } from "react-native";
 import { LinearGradient } from "expo";
 
 export default class Price extends React.Component {
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   priceContainer: {
-    marginTop: 7.5,
+    // marginTop: 7.5,
     width: 375,
     height: 100
   }
