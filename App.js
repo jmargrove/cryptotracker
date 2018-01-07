@@ -2,7 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import Header from "./presentation/Header.js";
 import Price from "./component/Price.js";
+import PriceSlider from "./presentation/PriceSlider.js";
 import Loader from "./presentation/Loader.js";
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,14 +28,15 @@ export default class App extends React.Component {
     if (this.state.data) {
       console.log("data", this.state.data);
       return this.state.data.map(el => (
-        <Price
-          key={el.id}
-          price={el.price_usd}
-          acy={el.symbol}
-          fullname={el.name}
-          change24h={el.percent_change_24h}
-          change7d={el.percent_change_7d}
-        />
+        <PriceSlider key={el.id}>
+          <Price
+            price={el.price_usd}
+            acy={el.symbol}
+            fullname={el.name}
+            change24h={el.percent_change_24h}
+            change7d={el.percent_change_7d}
+          />
+        </PriceSlider>
       ));
     }
   }
@@ -51,5 +54,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});
