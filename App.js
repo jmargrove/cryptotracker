@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import Header from "./presentation/Header.js";
 import Price from "./component/Price.js";
+import Loader from "./presentation/Loader.js";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -11,8 +12,9 @@ export default class App extends React.Component {
     };
   }
   getCryptoDataFromApi() {
-    fetch("https://api.coinmarketcap.com/v1/ticker/?start=100&limit=25")
+    fetch("https://api.coinmarketcap.com/v1/ticker/")
       .then(r => r.json())
+      .then(s => s.sort((a, b) => b.market_cap_usd - a.market_cap_usd))
       .then(res => this.setState({ data: res }));
   }
 
@@ -40,8 +42,11 @@ export default class App extends React.Component {
     return (
       <View>
         <Header />
-
-        <ScrollView>{this.mapThePriceData()}</ScrollView>
+        {this.state.data ? (
+          <ScrollView>{this.mapThePriceData(this.state.data)}</ScrollView>
+        ) : (
+          <Loader />
+        )}
       </View>
     );
   }
