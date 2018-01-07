@@ -25,6 +25,7 @@ export default class App extends React.Component {
       console.log("data", this.state.data);
       return this.state.data.map(el => (
         <Price
+          key={el.id}
           price={el.price_usd}
           acy={el.symbol}
           fullname={el.name}

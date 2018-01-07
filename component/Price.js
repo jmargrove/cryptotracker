@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo";
 
 export default class Price extends React.Component {
-  exchangeChange(timePeriod, direction, numberChange) {
+  exchangeChange(timePeriod, direction, numberChange, side) {
     return (
       <View style={styles.leftBot}>
         <View style={styles.upperPriceChange}>
