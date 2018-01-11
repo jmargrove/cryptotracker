@@ -6,18 +6,27 @@ export default class PriceSlider extends React.Component {
   constructor() {
     super();
     this.state = {
-      pan: new Animated.ValueXY()
+      pan: new Animated.ValueXY(),
+      circleColor: 0,
+      scrollFreez: true
     };
   }
 
-  animate() {
-    this.animatedValue.setValue(0);
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 2000,
-      easing: Easing.linear
-    }).start(() => this.animate());
-  }
+  forPageNavigation = () => {
+    const { navigate } = this.props.navi;
+    if (this.state.circleColor > 400) {
+      navigate("CryptoProfile");
+    }
+  };
+
+  scrollToggle = () => {
+    // console.log("the state....", this.state);
+    if (this.state.scrollFreez) {
+      this.props.scrollFreez();
+    } else {
+      this.props.scrollFreez();
+    }
+  };
 
   componentWillMount() {
     // Add a listener for the delta value change
@@ -26,25 +35,45 @@ export default class PriceSlider extends React.Component {
     // Initialize PanResponder with move handling
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gesture) => true,
-      onPanResponderMove: Animated.event([null, { dx: this.state.pan.x }]),
+      onPanResponderMove: (event, gestureState) => {
+        if (gestureState.dx < 0) {
+          this.setState({ scrollFreez: false });
+          this.setState({ circleColor: Math.abs(gestureState.dx) * 1.5 });
+          // Animated timing animates the movements of the slider right;
+          Animated.timing(this.state.pan, {
+            toValue: { x: gestureState.dx, y: 0 },
+            duration: 0
+          }).start();
+        }
+      },
       onPanResponderRelease: (evt, gestureState) => {
-        Animated.spring(this.state.pan, {
+        this.setState({ scrollFreez: true });
+        // Animted spring resents the slider right
+        Animated.timing(this.state.pan, {
           toValue: { x: 0, y: 0 },
-          duration: 500
+          duration: 250
         }).start();
-        console.log("gs", gestureState);
       }
     });
   }
 
   render() {
-    console.log("the state", this.state.pan);
     const panStyle = {
       transform: this.state.pan.getTranslateTransform()
+    };
+    const circleStyle = {
+      borderColor: rgb(
+        this.state.circleColor,
+        this.state.circleColor,
+        this.state.circleColor,
+        1
+      )
     };
 
     return (
       <View style={styles.container}>
+        {this.forPageNavigation()}
+        {/* {this.scrollToggle()} */}
         <LinearGradient
           colors={["#469882", "#37758F"]}
           start={[0.8, 0]}
@@ -52,10 +81,14 @@ export default class PriceSlider extends React.Component {
           style={styles.backgroundBox}
         >
           <View style={styles.buttonBox}>
-            <View style={styles.buttonCircle}>
+            <View style={[styles.buttonCircle, circleStyle]}>
               <Text
                 style={{
-                  color: "white",
+                  color: rgb(
+                    this.state.circleColor,
+                    this.state.circleColor,
+                    this.state.circleColor
+                  ),
                   fontSize: 30,
                   backgroundColor: "transparent"
                 }}
@@ -82,7 +115,6 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     borderWidth: 5,
-    borderColor: "#2D3C42",
     // backgroundColor: "blue",
     justifyContent: "center",
     alignItems: "center"
