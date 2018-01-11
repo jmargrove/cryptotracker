@@ -49,11 +49,7 @@ export default class PriceSlider extends React.Component {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gesture) => true,
       onPanResponderMove: (event, gestureState) => {
-        if (
-          gestureState.dx < 0 &&
-          this.state.naviFlag &&
-          this.state.circleColor <= 200
-        ) {
+        if (gestureState.dx < 0) {
           this.setState({ scrollFreez: false });
           this.setState({ circleColor: Math.abs(gestureState.dx) * 1.5 });
           // Animated timing animates the movements of the slider right;
