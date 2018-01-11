@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  PanResponder,
-  Animated,
-  Button
-} from "react-native";
+import { StyleSheet, Text, View, PanResponder, Animated } from "react-native";
 import { LinearGradient } from "expo";
 
 export default class PriceSlider extends React.Component {
@@ -20,6 +13,8 @@ export default class PriceSlider extends React.Component {
     };
   }
 
+  //this function enables page navigation, also need to pass some props for the next page
+  // to make the call for data for there graph.
   forPageNavigation = () => {
     const { navigate } = this.props.navi;
     if (this.state.circleColor > 200 && this.state.naviFlag) {
@@ -32,6 +27,8 @@ export default class PriceSlider extends React.Component {
     this.forPageNavigation();
   }
 
+  // This still needs fixing. when a slider is active, the scrole must become
+  // inactive, as the UX is severly fucked up.
   scrollToggle = () => {
     // console.log("the state....", this.state);
     if (this.state.scrollFreez) {
@@ -45,9 +42,10 @@ export default class PriceSlider extends React.Component {
     // Add a listener for the delta value change
     this._val = { x: 0 };
     this.state.pan.addListener(value => (this._val = value));
-    // Initialize PanResponder with move handling
+    // Initialize PanResponder with move handling.
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gesture) => true,
+      // when there are movements in the slider
       onPanResponderMove: (event, gestureState) => {
         if (gestureState.dx < 0) {
           this.setState({ scrollFreez: false });
@@ -59,6 +57,8 @@ export default class PriceSlider extends React.Component {
           }).start();
         }
       },
+      // Releasing the slider, without navigating needs a smooth transition back
+      // to the original possition.
       onPanResponderRelease: (evt, gestureState) => {
         if (this.state.naviFlag) {
           this.setState({ scrollFreez: true });
@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 30,
     borderWidth: 5,
-    // backgroundColor: "blue",
     justifyContent: "center",
     alignItems: "center"
   },
