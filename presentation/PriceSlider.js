@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, PanResponder, Animated } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  PanResponder,
+  Animated,
+  Button
+} from "react-native";
 import { LinearGradient } from "expo";
 
 export default class PriceSlider extends React.Component {
@@ -8,16 +15,22 @@ export default class PriceSlider extends React.Component {
     this.state = {
       pan: new Animated.ValueXY(),
       circleColor: 0,
-      scrollFreez: true
+      scrollFreez: true,
+      naviFlag: true
     };
   }
 
   forPageNavigation = () => {
     const { navigate } = this.props.navi;
-    if (this.state.circleColor > 400) {
+    if (this.state.circleColor > 200 && this.state.naviFlag) {
       navigate("CryptoProfile");
+      this.setState({ naviFlag: false });
     }
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    this.forPageNavigation();
+  }
 
   scrollToggle = () => {
     // console.log("the state....", this.state);
@@ -36,7 +49,11 @@ export default class PriceSlider extends React.Component {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gesture) => true,
       onPanResponderMove: (event, gestureState) => {
-        if (gestureState.dx < 0) {
+        if (
+          gestureState.dx < 0 &&
+          this.state.naviFlag &&
+          this.state.circleColor <= 200
+        ) {
           this.setState({ scrollFreez: false });
           this.setState({ circleColor: Math.abs(gestureState.dx) * 1.5 });
           // Animated timing animates the movements of the slider right;
@@ -47,12 +64,14 @@ export default class PriceSlider extends React.Component {
         }
       },
       onPanResponderRelease: (evt, gestureState) => {
-        this.setState({ scrollFreez: true });
-        // Animted spring resents the slider right
-        Animated.timing(this.state.pan, {
-          toValue: { x: 0, y: 0 },
-          duration: 250
-        }).start();
+        if (this.state.naviFlag) {
+          this.setState({ scrollFreez: true });
+          // Animted spring resents the slider right
+          Animated.timing(this.state.pan, {
+            toValue: { x: 0, y: 0 },
+            duration: 250
+          }).start();
+        }
       }
     });
   }
@@ -72,8 +91,6 @@ export default class PriceSlider extends React.Component {
 
     return (
       <View style={styles.container}>
-        {this.forPageNavigation()}
-        {/* {this.scrollToggle()} */}
         <LinearGradient
           colors={["#469882", "#37758F"]}
           start={[0.8, 0]}

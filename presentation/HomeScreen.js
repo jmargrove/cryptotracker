@@ -66,7 +66,8 @@ export default class HomeScreen extends React.Component {
         {/* <PriceSlider navi={this.props.navigation} /> */}
 
         <ScrollView scrollEnabled={false}>
-          {this.mapThePriceData(this.state.data)}
+          <PriceSlider navi={this.props.navigation} />
+          {/* {this.mapThePriceData(this.state.data)} */}
         </ScrollView>
       </View>
     );
