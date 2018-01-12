@@ -43,6 +43,7 @@ export default class HomeScreen extends React.Component {
     if (this.state.data) {
       return this.state.data.map(el => (
         <PriceSlider
+          acy={el.symbol}
           key={el.id}
           navi={this.props.navigation}
           scrollFreez={this.scrollFreez}
@@ -66,8 +67,8 @@ export default class HomeScreen extends React.Component {
         {/* <PriceSlider navi={this.props.navigation} /> */}
 
         <ScrollView scrollEnabled={false}>
-          <PriceSlider navi={this.props.navigation} />
-          {/* {this.mapThePriceData(this.state.data)} */}
+          {/* <PriceSlider navi={this.props.navigation} /> */}
+          {this.mapThePriceData(this.state.data)}
         </ScrollView>
       </View>
     );

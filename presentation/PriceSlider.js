@@ -18,7 +18,7 @@ export default class PriceSlider extends React.Component {
   forPageNavigation = () => {
     const { navigate } = this.props.navi;
     if (this.state.circleColor > 200 && this.state.naviFlag) {
-      navigate("CryptoProfile");
+      navigate("CryptoProfile", { coin: this.props.acy });
       this.setState({ naviFlag: false });
     }
   };
