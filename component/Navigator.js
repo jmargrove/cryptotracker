@@ -7,5 +7,5 @@ exports.Navigator = StackNavigator(
     Home: { screen: HomeScreen },
     CryptoProfile: { screen: CryptoProfile }
   },
-  { headerMode: "none" }
+  { headerMode: "none", mode: "modal" }
 );
