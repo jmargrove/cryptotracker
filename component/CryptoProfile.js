@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Button } from "react-native";
 import { Bubbles } from "react-native-loader";
 import Header from "./../presentation/Header.js";
+import CandleGraph from "./CandleGraph.js";
 
 export default class CrypoProfile extends React.Component {
   constructor(props) {
@@ -23,12 +24,12 @@ export default class CrypoProfile extends React.Component {
   }
 
   render() {
-    console.log("passed parameters", this.state.data);
     const { navigate } = this.props.navigation;
     return (
       <View>
         <Header />
         <Text>{this.props.navigation.state.params.coin}</Text>
+        <CandleGraph data={this.state.data} />
         <Button
           onPress={() => navigate("Home")}
           title="Go that way"
