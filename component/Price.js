@@ -35,7 +35,7 @@ export default class Price extends React.Component {
   render() {
     return (
       <LinearGradient
-        colors={["#717C89", "#2D3C42"]}
+        colors={["grey", "black"]}
         start={[0.5, 0]}
         end={[0.5, 0.25]}
         style={styles.priceContainer}
@@ -229,17 +229,14 @@ const styles = StyleSheet.create({
   },
   midContainer: {
     flex: 2,
-    // backgroundColor: "yellow",
     justifyContent: "center",
     alignItems: "center"
   },
   botContainer: {
     flex: 10,
-    // backgroundColor: "red"
     flexDirection: "row"
   },
   priceContainer: {
-    // marginTop: 7.5,
     width: 375,
     height: 100
   }

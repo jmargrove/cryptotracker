@@ -88,7 +88,7 @@ export default class PriceSlider extends React.Component {
     return (
       <View style={styles.container}>
         <LinearGradient
-          colors={["#469882", "#37758F"]}
+          colors={["black", "white"]}
           start={[0.8, 0]}
           end={[1, 1]}
           style={styles.backgroundBox}
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 375,
-    height: 110,
+    height: 102,
     backgroundColor: "transparent"
   }
 });
