@@ -8,7 +8,7 @@ export default class Header extends React.Component {
       <View>
         <View style={styles.topBar} />
         <LinearGradient
-          colors={["black", "#469882"]}
+          colors={["black", "black"]}
           start={[0, 0.5]}
           end={[1, 0.5]}
           style={styles.header}
@@ -24,7 +24,7 @@ export default class Header extends React.Component {
             <View style={styles.botBar} />
           </View>
         </View> */}
-          <Text style={styles.title}> C R Y P T O T R A C K E R</Text>
+          <Text style={styles.title}> C R Y P T O - T R A C K E R</Text>
           {/* <View style={styles.menuContainer}>
           <View style={styles.menuDivider}>
             <View style={styles.Dot} />
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
   topBar: {
     backgroundColor: "white",
     width: 700,
-    height: 20
+    height: 20,
+    borderBottomWidth: 2
   },
   menuContainer: {
     width: 60,
@@ -57,12 +58,14 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "space-around",
     alignItems: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    borderBottomWidth: 5,
+    borderBottomColor: "grey"
   },
   title: {
     color: "white",
     backgroundColor: "transparent",
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: "bold"
   }
 });
