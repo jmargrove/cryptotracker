@@ -14,7 +14,7 @@ export default class CrypoProfile extends React.Component {
 
   getCandleData(theProps) {
     console.log("the props:", theProps);
-    fetch("https://api.hitbtc.com/api/2/public/candles/ETHBTC?period=M30")
+    fetch("https://api.hitbtc.com/api/2/public/candles/BTCUSD?period=M30")
       .then(r => r.json())
       .then(res => this.setState({ data: res }));
   }
@@ -28,11 +28,11 @@ export default class CrypoProfile extends React.Component {
     return (
       <View>
         <Header />
-        {/* <Text>{this.props.navigation.state.params.coin}</Text> */}
-        {/* <CandleGraph data={this.state.data} /> */}
+        <Text>{this.props.navigation.state.params.coin}</Text>
+        <CandleGraph data={this.state.data} />
         <Button
           onPress={() => navigate("Home")}
-          title="Go that way"
+          title="Go back way"
           style={{ backgroundColor: "black", width: 100, height: 30 }}
         />
       </View>
