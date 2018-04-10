@@ -28,8 +28,8 @@ export default class CrypoProfile extends React.Component {
     return (
       <View>
         <Header />
-        <Text>{this.props.navigation.state.params.coin}</Text>
-        <CandleGraph data={this.state.data} />
+        {/* <Text>{this.props.navigation.state.params.coin}</Text> */}
+        {/* <CandleGraph data={this.state.data} /> */}
         <Button
           onPress={() => navigate("Home")}
           title="Go that way"
