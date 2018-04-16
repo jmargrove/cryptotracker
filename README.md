@@ -2,7 +2,7 @@
 
 <p> React native app that presents the cryptomarket data from coinmarketcap <p>
 <p align="center" >
- <img src = "https://thumbs.gfycat.com/IdioticSmartBoto-size_restricted.gif" height="350px">
+ <img src = "https://thumbs.gfycat.com/AcrobaticWellwornEskimodog-size_restricted.gif" height="350px">
  </p>
  <h2> Getting started </h2> 
  <ul>
