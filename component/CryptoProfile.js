@@ -14,7 +14,11 @@ export default class CrypoProfile extends React.Component {
 
   getCandleData(theProps) {
     console.log("the props:", theProps);
-    fetch("https://api.hitbtc.com/api/2/public/candles/BTCUSD?period=M30")
+    fetch(
+      "https://api.hitbtc.com/api/2/public/candles/" +
+        theProps +
+        "USD?period=M30"
+    )
       .then(r => r.json())
       .then(res => this.setState({ data: res }));
   }
