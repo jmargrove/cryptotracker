@@ -21,7 +21,7 @@ export default class HomeScreen extends React.Component {
     };
   }
   getCryptoDataFromApi() {
-    fetch("https://api.coinmarketcap.com/v1/ticker/?limit=10")
+    fetch("https://api.coinmarketcap.com/v1/ticker/?limit=20")
       .then(r => r.json())
       .then(s => s.sort((a, b) => b.market_cap_usd - a.market_cap_usd))
       .then(res => this.setState({ data: res }));
@@ -61,16 +61,18 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    return (
-      <View>
-        <Header />
-        {/* <PriceSlider navi={this.props.navigation} /> */}
-
-        <ScrollView scrollEnabled={true}>
-          {/* <PriceSlider navi={this.props.navigation} /> */}
-          {this.mapThePriceData(this.state.data)}
-        </ScrollView>
-      </View>
-    );
+    if (!this.state.data) {
+      return <Loader />;
+    } else {
+      return (
+        <View>
+          {/* <Loader /> */}
+          <Header />
+          <ScrollView directionalLockEnabled={true} scrollEnabled={true}>
+            {this.mapThePriceData(this.state.data)}
+          </ScrollView>
+        </View>
+      );
+    }
   }
 }

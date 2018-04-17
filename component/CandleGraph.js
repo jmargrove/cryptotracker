@@ -1,15 +1,35 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, ScrollView } from "react-native";
 import { Bubbles } from "react-native-loader";
+
+const maxCalc = array => {
+  return array.reduce((acc, el) => {
+    if (Number(el.max) > acc) {
+      return Number(el.max);
+    } else {
+      return acc;
+    }
+  }, 0);
+};
+
+const minCalc = array => {
+  return array.reduce((acc, el) => {
+    if (Number(el.min) < acc) {
+      return Number(el.min);
+    } else {
+      return acc;
+    }
+  }, 9999999);
+};
 
 export default class CandleGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      ylab: null,
-      maxValue: null,
-      minValue: null
+      data: null
+      // ylab: null,
+      // maxValue: null,
+      // minValue: null
     };
   }
 
@@ -17,23 +37,13 @@ export default class CandleGraph extends React.Component {
 
   xAxisHandler(theProps) {
     if (theProps) {
-      const maxY = theProps.reduce((acc, el) => {
-        if (Number(el.max) > acc) {
-          return Number(el.max);
-        } else {
-          return acc;
-        }
-      }, 0);
+      const trimProps = theProps;
+      const maxY = maxCalc(trimProps);
+      const minY = minCalc(trimProps);
+      console.log("CG props:", trimProps.length);
 
-      const minY = theProps.reduce((acc, el) => {
-        if (Number(el.min) < acc) {
-          return Number(el.min);
-        } else {
-          return acc;
-        }
-      }, 9999999);
-
-      //// ok so we know the max and the min values.....
+      //
+      //   //// ok so we know the max and the min values.....
       const ymax = Math.round(maxY / 100) * 100;
       const ymin = Math.round(minY / 100) * 100;
       const values = [];
@@ -46,16 +56,16 @@ export default class CandleGraph extends React.Component {
       }
       values.push(ymin);
       console.log(values);
-
+      //
       const spacingOne = [10, 60, 110, 160, 210, 260];
-
-      const spacingTwo = [];
-      for (let i = 10; i < 260; i += 250 / 4) {
-        spacingTwo.push(i);
-      }
-      spacingTwo.push(260);
-
-      return (values.length === 6 ? spacingOne : spacingTwo).map((el, i) => {
+      //
+      //   const spacingTwo = [];
+      //   for (let i = 10; i < 260; i += 250 / 4) {
+      //     spacingTwo.push(i);
+      //   }
+      //   spacingTwo.push(260);
+      //
+      return spacingOne.map((el, i) => {
         return (
           <View key={el}>
             <View style={[styles.xAxis, { top: el }]} />
@@ -68,7 +78,8 @@ export default class CandleGraph extends React.Component {
 
   scalerHandler(theProps) {
     if (theProps) {
-      const maxY = theProps.reduce((acc, el) => {
+      const trimProps = theProps;
+      const maxY = trimProps.reduce((acc, el) => {
         if (Number(el.max) > acc) {
           return Number(el.max);
         } else {
@@ -76,7 +87,7 @@ export default class CandleGraph extends React.Component {
         }
       }, 0);
 
-      const minY = theProps.reduce((acc, el) => {
+      const minY = trimProps.reduce((acc, el) => {
         if (Number(el.min) < acc) {
           return Number(el.min);
         } else {
@@ -84,7 +95,7 @@ export default class CandleGraph extends React.Component {
         }
       }, 9999999);
 
-      return theProps.map(el => {
+      return trimProps.map(el => {
         return {
           close: (el.close - minY) / (maxY - minY) * 250 + 10,
           open: (el.open - minY) / (maxY - minY) * 250 + 10,
@@ -99,16 +110,19 @@ export default class CandleGraph extends React.Component {
     if (theProps) {
       const newData = this.scalerHandler(theProps);
       console.log(newData.length);
-      return newData.map((el, i) => {
+      return newData.reverse().map((el, i) => {
         return (
           <View key={i}>
             <View
-              style={[styles.candleTail, { left: 10 + i * 10, top: el.max }]}
+              style={[
+                styles.candleTail,
+                { left: 300 - i * 20, top: el.max - 40 }
+              ]}
             />
             <View
               style={[
                 styles.candleMain,
-                { left: 8 + i * 10, top: el.max + 10 }
+                { left: 298 - i * 20, top: el.max + 10 - 40 }
               ]}
             />
           </View>
@@ -118,17 +132,26 @@ export default class CandleGraph extends React.Component {
   }
 
   render() {
-    console.log("passed parameters", this.props.data);
+    console.log(
+      "passed parameters",
+      this.props.data ? this.props.data[0] : null
+    );
     return (
       <View style={styles.graphContainer}>
         {this.xAxisHandler(this.props.data)}
-        {this.candleStickHandler(this.props.data)}
+        <ScrollView horizontal={true} style={styles.hScrole}>
+          {this.candleStickHandler(this.props.data)}
+        </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  hScrole: {
+    //backgroundColor: "blue",
+    width: 320
+  },
   candleTail: {
     position: "absolute",
     height: 80,
