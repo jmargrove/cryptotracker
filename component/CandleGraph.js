@@ -33,19 +33,23 @@ export default class CandleGraph extends React.Component {
     };
   }
 
-  async componentDidUpdate() {}
+  componentDidUpdate(theProps, nextProps) {
+    if (theProps.data != nextProps.data) {
+      this.ref.scrollView.scrollToEnd({ animated: true });
+    }
+  }
 
   xAxisHandler(theProps) {
     if (theProps) {
       const trimProps = theProps;
       const maxY = maxCalc(trimProps);
       const minY = minCalc(trimProps);
-      console.log("CG props:", trimProps.length);
+      console.log("CG props:", minY, maxY);
 
       //
       //   //// ok so we know the max and the min values.....
       const ymax = Math.round(maxY / 100) * 100;
-      const ymin = Math.round(minY / 100) * 100;
+      const ymin = Math.floor(minY / 100) * 100;
       const values = [];
       for (
         let i = ymax;
@@ -97,6 +101,7 @@ export default class CandleGraph extends React.Component {
 
       return trimProps.map(el => {
         return {
+          timestamp: el.timestamp,
           close: (el.close - minY) / (maxY - minY) * 250 + 10,
           open: (el.open - minY) / (maxY - minY) * 250 + 10,
           max: (el.max - minY) / (maxY - minY) * 250 + 10,
@@ -110,21 +115,33 @@ export default class CandleGraph extends React.Component {
     if (theProps) {
       const newData = this.scalerHandler(theProps);
       console.log(newData.length);
-      return newData.reverse().map((el, i) => {
+      return newData.map((el, i) => {
+        console.log(i);
         return (
           <View key={i}>
             <View
               style={[
                 styles.candleTail,
-                { left: 300 - i * 20, top: el.max - 40 }
+                {
+                  top: el.max - 20,
+                  height: el.max - el.min
+                }
               ]}
             />
             <View
               style={[
                 styles.candleMain,
-                { left: 298 - i * 20, top: el.max + 10 - 40 }
+                {
+                  backgroundColor: el.close > el.open ? "green" : "red",
+                  top: el.close > el.open ? el.close - 20 : el.open - 20,
+                  height: el.max - el.min
+                }
               ]}
             />
+            <View style={styles.ticker} />
+            {(i + 1) % 5 == 0 ? (
+              <Text style={styles.timeStamp}>{el.timestamp.slice(11, 16)}</Text>
+            ) : null}
           </View>
         );
       });
@@ -139,7 +156,7 @@ export default class CandleGraph extends React.Component {
     return (
       <View style={styles.graphContainer}>
         {this.xAxisHandler(this.props.data)}
-        <ScrollView horizontal={true} style={styles.hScrole}>
+        <ScrollView horizontal={true} style={styles.hScrole} ref="scrollView">
           {this.candleStickHandler(this.props.data)}
         </ScrollView>
       </View>
@@ -148,22 +165,42 @@ export default class CandleGraph extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  timeStamp: {
+    fontSize: 10,
+    zIndex: 0,
+    top: 270,
+    transform: [{ rotate: "45deg" }],
+    marginLeft: 0
+  },
+  ticker: {
+    backgroundColor: "grey",
+    height: 5,
+    width: 2,
+    zIndex: 99,
+    top: 260,
+    marginLeft: 10
+  },
   hScrole: {
-    //backgroundColor: "blue",
-    width: 320
+    //  backgroundColor: "lightblue",
+    width: 320,
+    height: 300,
+    top: 0,
+    left: 0
   },
   candleTail: {
     position: "absolute",
     height: 80,
     width: 2,
     top: 10,
-    backgroundColor: "black"
+    backgroundColor: "black",
+    marginLeft: 10
   },
   candleMain: {
     position: "absolute",
     top: 30,
     height: 50,
     width: 6,
+    marginLeft: 10,
     backgroundColor: "black"
   },
   xText: {
@@ -172,8 +209,7 @@ const styles = StyleSheet.create({
   },
   xAxis: {
     position: "absolute",
-    left: 20,
-    width: 300,
+    width: 320,
     height: 2,
     backgroundColor: "grey"
   },
