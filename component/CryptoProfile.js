@@ -33,6 +33,7 @@ export default class CrypoProfile extends React.Component {
       <View>
         <Header />
         <Text>{this.props.navigation.state.params.coin}</Text>
+        <Text>24 hours </Text>
         <CandleGraph data={this.state.data} />
         <Button
           onPress={() => navigate("Home")}
