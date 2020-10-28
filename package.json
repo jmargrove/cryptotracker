@@ -19,7 +19,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "auth0": "^2.9.1",
+    "auth0": "^2.27.1",
     "auth0-js": "^9.4.2",
     "expo": "^23.0.4",
     "react": "16.0.0",
